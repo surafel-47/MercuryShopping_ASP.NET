@@ -1,0 +1,347 @@
+﻿@{
+    Layout = "~/Views/Shared/CustomerNavBar.cshtml";
+}
+<head>
+    <title>Sign up/Sign in</title>
+    <style>
+        @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        SignInSignup {
+            /*          display: flex;
+                                            justify-content: center;
+                                            align-items: center;*/
+            min-height: 80vh;
+            width: 100%;
+        }
+
+            SignInSignup h3 {
+                position: absolute;
+                top: 0;
+                left: 0;
+                background-color: red;
+                color: white;
+                padding: 10px;
+                z-index: 9999;
+                margin-bottom:100px;
+            }
+
+        .container {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            margin-left: 30%;
+            margin-top: 5%;
+            transition: 0.5s;
+        }
+
+        .blueBg {
+            position: absolute;
+            top: 40px;
+            width: 100%;
+            height: 420px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 45px rgba(0, 0, 0, 0.15);
+            z-index: 1; /* Add this line */
+        }
+
+            .blueBg .box {
+                position: relative;
+                width: 50%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+
+                .blueBg .box h2 {
+                    color: #fff;
+                    font-size: 1.2em;
+                    font-weight: 500;
+                    margin-bottom: 10px;
+                    position: absolute; /* Add this line */
+                    top: 0; /* Add this line */
+                    left: 0; /* Add this line */
+                    padding: 10px;
+                    z-index: 9999;
+                }
+
+                .blueBg .box button {
+                    cursor: pointer;
+                    padding: 10px 20px;
+                    background: #fff;
+                    color: #333;
+                    font-size: 16px;
+                    font-weight: 500;
+                    border: none;
+                }
+
+        .formBx {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: #fff;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 45px rgba(0, 0, 0, 0.25);
+            transition: 0.5s ease-in-out;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+            .formBx.active {
+                left: 50%;
+            }
+
+            .formBx .form {
+                position: absolute;
+                left: 0;
+                width: 100%;
+                padding: 50px;
+                transition: 0.5s;
+            }
+
+            .formBx .signinForm {
+                transition-delay: 0.25s;
+            }
+
+            .formBx.active .signinForm {
+                left: -100%;
+                transition-delay: 0s;
+            }
+
+            .formBx .signupForm {
+                left: 100%;
+                transition-delay: 0;
+            }
+
+            .formBx.active .signupForm {
+                left: 0;
+                transition-delay: 0.25s;
+            }
+
+            .formBx .form form {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+
+                .formBx .form form h3 {
+                    font-size: 1.9em;
+                    color: #333;
+                    margin-bottom: 20px;
+                    font-weight: 500;
+                }
+
+                .formBx .form form input {
+                    width: 100%;
+                    margin-bottom: 5px;
+                    margin-top: 5px;
+                    padding: 10px;
+                    outline: none;
+                    font-size: 16px;
+                    /* border: 1px solid #333; */
+                    border: none;
+                }
+
+                .formBx .form form .underline::before {
+                    content: '';
+                    position: absolute;
+                    height: 1px;
+                    width: 80%;
+                    background: #ccc;
+                    left: 50px;
+                }
+
+                .formBx .form form input[type="submit"] {
+                    background: #e73d4d;
+                    border: none;
+                    color: #fff;
+                    max-width: 300px;
+                    cursor: pointer;
+                    border-radius: 20px;
+                    margin-top: 20px;
+                }
+
+
+            .formBx.active .form form input[type="submit"] {
+                background: #6b4da0;
+            }
+
+            .formBx .form form .forgot {
+                color: #333;
+                padding-left: 50%;
+                padding-top: 10%;
+            }
+
+        .form form .underline::before {
+            content: '';
+            position: absolute;
+            height: 1px;
+            width: 80%;
+            background: #ccc;
+            left: 50px;
+        }
+
+        .pic {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            top: 90%;
+            left: 65%;
+            transform: translate(30%, 50%);
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #284f87;
+        }
+
+        #photo {
+            transform: translate(-12%, -15%);
+            width: 100px;
+            height: 110px;
+        }
+
+        #file {
+            display: none;
+        }
+
+        #uploadBtn {
+            width: 100%;
+            height: 30px;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            line-height: 30px;
+            cursor: pointer;
+            display: block;
+        }
+
+            #uploadBtn img {
+                width: 30px;
+                height: 30px;
+            }
+
+    </style>
+</head>
+
+<body>
+    <div class="SignInSignup">
+
+        <div class="container">
+            <h3 style="position:absolute; z-index:10000; margin:40px">
+                @ViewBag.msg
+            </h3>
+            <div class="blueBg">
+                <div class="box signin">
+                    <button class="signinBtn">Sign in</button>
+                </div>
+                <div class="box signup">
+                    <h2 style="color: black">Don't Have an Account ?</h2>
+                    <button class="signupBtn">Sign up</button>
+                </div>
+            </div>
+            <div class="formBx">
+                <div class="form signinForm">
+                    <form action="SignIn" method="get">
+                        <h3>Sign In</h3>
+                        <input type="text" name="EmailOrPhoneNumber" autocomplete="off" placeholder="Email/Phone-No">
+                        <article class="underline"></article>
+                        <input type="password" name="PassWord" autocomplete="off" placeholder="Password">
+                        <article class="underline"></article>
+                        <input type="submit" name="submit">
+                    </form>
+                    <p style="color:black;">Mercury Marketplace &trade;</p>
+                </div>
+
+                <div class="form signupForm">
+                    <form action="SignUp" method="post" enctype='multipart/form-data'>
+
+                        <div class="pic">
+                            <img src="../Images/Profile.jpg" id="photo">
+                            <input type="file" name="custImg" id="file">
+                            <label for="file" id="uploadBtn"><img src="~/Extra/addImg.png"></label>
+                        </div>
+
+                        <h3 class="up">Sign Up</h3>
+
+                        <input type="text" name="Fname" autocomplete="off" placeholder="First Name" required>
+                        <article class="underline"></article>
+                        <input type="text" name="Lname" autocomplete="off" placeholder="Last Name" required>
+                        <article class="underline"></article>
+                        <input type="email" name="Email" autocomplete="off" placeholder="Email"  required>
+                        <article class="underline"></article>
+                        <input type="text" name="PassWord" autocomplete="off" placeholder="password" required>
+                        <article class="underline"></article>
+                        <input type="text" name="PhoneNumber" autocomplete="off" placeholder="Phone Number" required>
+                        <article class="underline"></article>
+                        <input type="submit" class="regi">
+                    </form>
+                    <script>
+                        const imgDiv = document.querySelector('.pic');
+                        const img = document.querySelector('#photo');
+                        const file = document.querySelector('#file');
+                        const uploadBtn = document.querySelector('#uploadBtn');
+
+
+                        // Too Display image when uploaded
+
+                        file.addEventListener('change', function () {
+                            const chooseFile = this.files[0];
+
+                            if (chooseFile) {
+                                const reader = new FileReader();
+
+                                reader.addEventListener('load', function () {
+                                    img.setAttribute('src', reader.result);
+                                });
+
+                                reader.readAsDataURL(chooseFile);
+
+                            }
+                        })
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const signinBtn = document.querySelector('.signinBtn');
+        const signupBtn = document.querySelector('.signupBtn');
+        const formBx = document.querySelector('.formBx');
+        const body = document.querySelector('body');
+        const register = document.querySelector('.regi');
+
+        signupBtn.onclick = function () {
+            formBx.classList.add('active');
+            body.classList.add('active');
+        }
+
+        signinBtn.onclick = function () {
+            formBx.classList.remove('active');
+            body.classList.remove('active');
+        }
+
+        register.onclick = function () {
+            formBx.classList.remove('active');
+            body.classList.remove('active');
+        }
+    </script>
+</body>

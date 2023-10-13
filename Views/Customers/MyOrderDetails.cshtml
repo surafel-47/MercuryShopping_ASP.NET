@@ -1,0 +1,166 @@
+﻿@using MercuryShopping.Models.Tables
+@using Newtonsoft.Json;
+@{
+    Layout = "~/Views/Shared/CustomerNavBar.cshtml";
+}
+
+@{
+    @model List<OrderDetails>;
+    List<OrderDetails> orderDetails = Model;
+    Orders order = ViewBag.order;
+}
+
+
+<head>
+    <title>Invoice</title>
+
+    <style>
+        body{
+           overflow:hidden;
+        }
+        .invoice-container {
+            margin: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            height: 80%;
+            width: 60%;
+            margin-left: 20%;
+        }
+
+
+
+        .invoice-details {
+            flex: 1;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            text-align: right;
+        }
+
+        .invoice_table_container {
+            overflow-y: scroll;
+            width: 100%;
+            height: 60%;
+        }
+
+            .invoice_table_container::-webkit-scrollbar {
+                display: none;
+            }
+
+
+        .invoice-table {
+            padding: 10px;
+            font-size: 23px;
+            font-size: 23px;
+            width: 100%;
+        }
+
+            .invoice-table tr {
+                height: 20px;
+            }
+
+
+            /* Styling table header */
+            .invoice-table th {
+                background-color: rgb(66, 56, 56);
+                color: #fff;
+                padding: 10px;
+                font-size: 25px;
+            }
+
+            /* Padding for table cells */
+            .invoice-table td {
+                padding: 10px;
+            }
+            /* Alternating background colors for table rows */
+            .invoice-table tbody tr:nth-child(even) {
+                background-color: rgb(237, 229, 229);
+            }
+
+            .invoice-table tbody tr:nth-child(odd) {
+                background-color: rgb(255, 240, 255);
+            }
+
+
+        .invoice-summary {
+            float: right;
+            text-align:right;
+        }
+
+
+
+        .invoice-summary-item {
+            margin-right: 30px;
+        }
+
+            .invoice-summary-item * {
+                display: inline-block;
+            }
+
+            .invoice-summary-item p {
+                font-size: 20px;
+                font-weight:bold;
+            }
+
+
+        .invoice-details {
+            float: left;
+             font-weight:bold;
+             text-align:left;
+        }
+        .invoice-details span{
+             font-weight:normal;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="invoice-container">
+        <div class="invoice_table_container">
+
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Product Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (orderDetails != null)
+                    {
+                        @foreach (OrderDetails orderDetail in orderDetails)
+                        {
+                            <tr>
+                                <td>@orderDetail.ProName</td>
+                                <td>@orderDetail.Qty</td>
+                                <td>@orderDetail.ProTotal.ToString("0,0.00") Birr</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+            <div class="invoice-details">
+                <h2>Invoice Details</h2>
+                <p>Date: <span id="invoiceDate">@order.Date_.ToString("yyyy-MM-dd")</span></p>
+                <p>Time: <span id="invoiceDate">@order.Date_.ToString("HH:mm:ss")</span></p>
+                <p>Shipping Address: <span id="shippingAddress">@order.Address</span></p>
+            </div>
+
+            <div class="invoice-summary">
+                <div class="invoice-summary-item">
+                    <h3>SubTotal:</h3>
+                    <p>@((order.Total*0.85)?.ToString("0,0.00")) Birr</p>
+                </div>
+                <div class="invoice-summary-item">
+                    <h3>VAT:</h3>
+                    <p>@((order.Total*0.15)?.ToString("0,0.00")) Birr</p>
+                </div>
+                <div class="invoice-summary-item">
+                    <h2>Total:</h2>
+                    <p>@order.Total?.ToString("0,0.00") Birr</p>
+                </div>
+            </div>
+    </div>
+</body>

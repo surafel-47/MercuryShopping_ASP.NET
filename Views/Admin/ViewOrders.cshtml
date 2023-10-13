@@ -1,0 +1,161 @@
+﻿@using MercuryShopping.Models.Tables
+@{
+    Layout = "~/Views/Shared/AdminNavBar.cshtml";
+}
+
+@{
+    @model List<Orders>;
+
+}
+
+<head>
+    <title>View Orders</title>
+
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .viewOrders {
+            margin: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            height: 90%;
+        }
+
+
+        .viewOrdersMiddleArea {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #caption {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-top: 30px;
+        }
+
+        #datepicker {
+            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 30px;
+        }
+
+        .Orders_table_contaniner {
+        }
+
+        .Orders_table_contaniner {
+            overflow-y: scroll;
+            width: 100%;
+            height: 90%;
+        }
+
+            .Orders_table_contaniner::-webkit-scrollbar {
+                display: none;
+            }
+
+        .OrdersTable {
+            padding: 10px;
+            width: 100%;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+            .OrdersTable tbody tr {
+                transition: 0.15s;
+            }
+
+            .OrdersTable tr:hover {
+                transform: scale(1.01);
+            }
+
+
+            .OrdersTable::-webkit-scrollbar {
+                display: none;
+            }
+
+
+            /* Styling table header */
+            .OrdersTable th {
+                background-color: rgb(66, 56, 56);
+                color: #fff;
+                padding: 10px;
+                font-size: 25px;
+            }
+
+            /* Padding for table cells */
+            .OrdersTable td {
+                padding: 10px;
+            }
+            /* Alternating background colors for table rows */
+            .OrdersTable tbody tr:nth-child(even) {
+                background-color: rgb(237, 229, 229);
+            }
+
+            .OrdersTable tbody tr:nth-child(odd) {
+                background-color: rgb(255, 240, 255);
+            }
+    </style>
+</head>
+
+<body>
+    <div class="viewOrders">
+        <div class="viewOrdersMiddleArea">
+            <div id="caption">Orders:</div>
+            <form id="DatePickerForm" method="get" action=@Url.Action("ViewOrders", "Admin")>
+                <input type="date" value="@ViewBag.dateSelected" id="datepicker" name="datepicker">
+                <input style="display:none" type="submit" />
+            </form>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              var datepicker = document.getElementById('datepicker');
+              datepicker.addEventListener('change', function() {
+                document.getElementById('DatePickerForm').submit();
+              });
+            });
+        </script>
+
+        <div class="Orders_table_contaniner">
+            <table class="OrdersTable">
+                <thead>
+                    <tr>
+                        <th>Orders ID</th>
+                        <th>Customer ID</th>
+                        <th>Total</th>
+                        <th>Order Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (Orders order in Model)
+                        {
+                            <tr onclick='window.location.href = "ViewOrderDetails?OrderID=@order.OrderID"'>
+                                <td>@order.OrderID</td>
+                                <td>@order.CustID</td>
+                                <td>@order.Total?.ToString("0,0.00") Birr</td>
+                                <td>
+                                    @{
+                                        if (order.OrderStatus == 0)
+                                        {
+                                            @:Pending
+                                        }
+                                        else
+                                        {
+                                            @:Confirmed
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>

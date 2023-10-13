@@ -1,0 +1,466 @@
+﻿@using MercuryShopping.Models.Tables
+@using Newtonsoft.Json
+@{
+    Layout = "~/Views/Shared/CustomerNavBar.cshtml";
+}
+@{
+    @model Product; //the Product Whichs Details I'm showing
+    if (Model == null)
+        return;
+    var product = Model;
+
+    List<Product> cartItems = new List<Product>();
+    string cartJson = Context.Session.GetString("cartItems");
+    if (string.IsNullOrEmpty(cartJson) == false)
+        cartItems = JsonConvert.DeserializeObject<List<Product>>(cartJson);
+
+
+    List<Reviews> reviews = ViewBag.reviews;
+
+
+    Customer customer = null;
+    string customerJson = Context.Session.GetString("customer");
+    if (string.IsNullOrEmpty(customerJson) == false)
+        customer = JsonConvert.DeserializeObject<Customer>(customerJson);
+
+}
+
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500;1,600;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+        main {
+            display: block;
+            padding-top: 20px;
+            width: 100%;
+            height: 80vh;
+        }
+
+        /* Common styles for both sections */
+        .section {
+            width: 60%;
+            height: 100%;
+            display: inline-block;
+            vertical-align: top;
+            margin-left: 5%;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .sectionB {
+            width: 30%;
+            height: 50%;
+            margin-left: 25px;
+            display: inline-block;
+            vertical-align: top;
+            background-color: #ffffff;
+        }
+
+        /* Left section styles */
+        .picture-box {
+            position: relative;
+            overflow: hidden;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #slideshow {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+            #slideshow img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                flex-shrink: 0;
+            }
+
+        .circles {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            bottom: 40px;
+            left: 50%;
+        }
+
+        .circle {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin: 10px 10px 15px;
+            background-color: #ffffff;
+        }
+
+            .circle.active {
+                background-color: #cc1414ba;
+            }
+
+
+
+
+
+
+
+
+        .product_name_and_rating {
+            font-family: "Poppins", Arial, Helvetica, sans-serif;
+            margin-bottom: 1px;
+        }
+
+            .product_name_and_rating h1 {
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+        .proDesc {
+            font-size: 16px;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .rating {
+            display: inline-block;
+            direction: rtl;
+        }
+
+            .rating input[type="radio"] {
+                display: none;
+            }
+
+            .rating label {
+                color: #ddd;
+                font-size: 40px;
+                cursor: pointer;
+                display: inline-block;
+                transform: rotateY(180deg);
+            }
+
+                .rating label:before {
+                    content: "\2605";
+                    display: inline-block;
+                    transform: rotateY(180deg);
+                }
+
+            .rating input[type="radio"]:checked ~ label {
+                color: #ffcc00;
+            }
+
+
+        .reviews {
+            font-size: 20px;
+        }
+
+        .dot {
+            margin-left: 10px;
+            margin-right: 10px;
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: black;
+        }
+
+        .price {
+            font-size: 32px;
+            font-weight: bold;
+            font-family: "Poppins", sans-serif;
+            display: inline;
+        }
+
+
+        .add-to-cart {
+            padding: 10px 20px;
+            background-color:  #3498db;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: "Poppins", sans-serif;
+        }
+
+
+        
+        .remove-to-cart {
+            padding: 10px 20px;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: "Poppins", sans-serif;
+        }
+
+
+
+
+
+        .Comments_section {
+            padding: 10px;
+            overflow-y: scroll;
+            height: 700px;
+        }
+
+            .Comments_section::-webkit-scrollbar {
+                display: none;
+            }
+
+            .Comments_section .rating label {
+                font-size: 27px;
+            }
+
+        h2 {
+            font-size: 20px;
+            font-weight: bold;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .leave_review_form {
+            width: 100%;
+            height: 30%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+        }
+
+        .large-text-input {
+            min-height: 100px;
+            overflow: hidden;
+            width: 90%;
+            font-size: 20px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: rgb(240, 235, 235);
+            border: none;
+            border-radius: 15px;
+            border-bottom-right-radius:5px;
+            vertical-align: top;
+            line-height: normal;
+        }
+
+
+
+
+        .postreview {
+            width: 25%;
+            margin-left: 20%;
+            display: inline-block;
+            background-color: #3c378a;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .comment {
+            padding: 10px;
+            display: flex;
+            margin-bottom: 10px;
+            font-family: "Poppins", sans-serif;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            overflow-x: hidden;
+        }
+
+            .comment .dot {
+                margin: 0px;
+                margin-left: 3px;
+                margin-right: 3px;
+            }
+
+        .user-profile {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+            .user-profile img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .user-comment {
+            margin-left: 10px;
+        }
+
+        .username {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .user-comment p {
+            font-size: 14px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <title>Product Det</title>
+</head>
+
+<body>
+    <main>
+        <div class="section">
+            <div class="picture-box">
+                <div id="slideshow">
+                    <img src="~/@product.Img1" onerror="this.onerror=null; this.src='/Extra/noProImg.png'">
+                    <img src="~/@product.Img2" onerror="this.onerror=null; this.src='/Extra/noProImg.png'">
+                    <img src="~/@product.Img3" onerror="this.onerror=null; this.src='/Extra/noProImg.png'">
+                </div>
+            </div>
+            <script>
+                let slideshow = document.getElementById("slideshow");
+                let images = slideshow.getElementsByTagName("img");
+                let currentIndex = 0;
+
+                function changeImage() {
+                  currentIndex = (currentIndex + 1) % images.length;
+                  slideshow.style.transform = `translateX(-${currentIndex * 100}%)`;
+                  updateActiveCircle();
+                }
+
+                function updateActiveCircle() {
+                  let circles = document.querySelectorAll(".circle");
+                  circles.forEach(function (circle, index) {
+                    if (index === currentIndex) {
+                      circle.classList.add("active");
+                    } else {
+                      circle.classList.remove("active");
+                    }
+                  });
+                }
+
+                setInterval(changeImage, 4000);
+            </script>
+            <div class="circles">
+                <div class="circle active"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+        </div>
+        <div class="sectionB">
+            <div class="product_name_and_rating">
+                <h1>@product.ProName</h1>
+                @{
+                    int ratingValue = 1;
+                    if (product.AvgRating != null)
+                    {
+                        ratingValue = (int)Math.Round((decimal)product.AvgRating);
+                    }
+                }
+                <span class="rating">
+                    <input type="radio" id="star5top" value="5" @(ratingValue==5 ? "checked" :"") disabled />
+                    <label for="star5top"></label>
+                    <input type="radio" id="star4top" value="4" @(ratingValue==4 ? "checked" :"") disabled  />
+                    <label for="star4top"></label>
+                    <input type="radio" id="star3top" value="3" @(ratingValue==3 ? "checked" :"") disabled />
+                    <label for="star3top"></label>
+                    <input type="radio" id="star2top" value="2" @(ratingValue==2 ? "checked" :"") disabled />
+                    <label for="star2top"></label>
+                    <input type="radio" id="star1top" value="1" @(ratingValue==1 ? "checked" :"") disabled />
+                    <label for="star1top"></label>
+                </span>
+                <span class="dot"></span>
+                <span class="reviews">(@(product.NumOfReviews ?? 0)) Reviews</span>
+            </div>
+            <div class="proDesc">
+                <p>
+                    @product.ProDesc
+                </p>
+            </div>
+            <div class="price_and_add_to_cart">
+                <p class="price">@(product.UPrice.ToString("0,0.00")) Birr</p>
+                <span class="dot"></span>
+                @{
+                    if (cartItems.FirstOrDefault(c => c.ProID == product.ProID) == null) // if not in cart
+                    {
+                        <a class="add-to-cart" href=@Url.Action("AddToCart", "Customers",new{ProID=@product.ProID,RedirectToo="SearchProducts"})>Add</a>
+                    }
+                    else
+                    {
+                        <a class="remove-to-cart" href=@Url.Action("RemoveFromCart", "Customers",new{ProID=@product.ProID,RedirectToo="SearchProducts"})>Remove</a>
+                    }
+                }
+
+            </div>
+
+            <h2>Comments</h2>
+            <div class="Comments_section">
+
+                @{
+                    if (customer != null)
+                    {
+                        <form class="leave_review_form" action="AddReview" method="post">
+                            <input hidden name="CustID" value=@customer.CustID>
+                            <input hidden name="ProID" value=@product.ProID>
+                            <textarea required autocomplete="off" name="comment" type="text" id="text-input" class="large-text-input"
+                               placeholder="Leave a Review of this Product" rows=6></textarea>
+                            <span class="rating">
+                                <input type="radio" id="star5" name="rating" value="5" />
+                                <label for="star5"></label>
+                                <input type="radio" id="star4" name="rating" value="4" />
+                                <label for="star4"></label>
+                                <input type="radio" id="star3" name="rating" value="3" />
+                                <label for="star3"></label>
+                                <input type="radio" id="star2" name="rating" value="2" />
+                                <label for="star2"></label>
+                                <input type="radio" id="star1" name="rating" value="1" checked />
+                                <label for="star1"></label>
+                            </span>
+                            <input class="postreview" type="submit" value="Post Review!">
+                        </form>
+                    }
+                }
+
+
+
+                @{
+                    if (reviews != null && reviews.Count != 0)
+                    {
+                        foreach (var review in reviews)
+                        {
+                            <div class="comment">
+                                <div class="user-profile">
+                                    <img src="~/Extra/Account.png">
+                                </div>
+                                <div class="user-comment">
+                                    <div class="username">@review.ReviewerFullName</div>
+                                    <span class="rating">
+                                        <input type="radio" id="star5ratingComment" @(review.Rating==5 ? "checked" :"") value="5" disabled />
+                                        <label for="star5ratingComment"></label>
+                                        <input type="radio" id="star4ratingComment" @(review.Rating==4 ? "checked" :"") value="4" disabled />
+                                        <label for="star4ratingComment"></label>
+                                        <input type="radio" id="star3ratingComment" @(review.Rating==3 ? "checked" :"") value="3" disabled />
+                                        <label for="star3ratingComment"></label>
+                                        <input type="radio" id="star2ratingComment" @(review.Rating==2 ? "checked" :"") value="2" disabled />
+                                        <label for="star2ratingComment"></label>
+                                        <input type="radio" id="star1ratingComment" @(review.Rating==1 ? "checked" :"") value="1" disabled />
+                                        <label for="star1ratingComment"></label>
+                                    </span>
+                                    <p>@review.Comment</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <h3>No Reviews Yet!</h3>
+                    }
+                }
+
+
+
+            </div>
+        </div>
+    </main>
+</body>

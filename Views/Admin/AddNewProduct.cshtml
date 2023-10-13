@@ -1,0 +1,274 @@
+﻿@{
+    Layout = "~/Views/Shared/AdminNavBar.cshtml";
+}
+
+
+<head>
+    <style>
+        body{
+            overflow:hidden;
+        }
+
+        .addProdForm * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+        }
+
+        .addProdForm {
+            z-index: 1;
+            background-color: rgb(250, 250, 250, 0.6);
+            backdrop-filter: blur(3px);
+            box-shadow: 10px 5px 20px 3px rgb(87, 69, 69);
+            margin-top: 10px;
+            margin-left: 10%; /* must remove*/
+            position: absolute; /*very Important*/
+            margin-top:20px;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            display: block;
+            width: 75%;
+            height: 90%;
+            border-radius: 2%;
+        }
+
+            .addProdForm p {
+                padding-top: 4%;
+                padding-bottom: 1%;
+                padding-left: 5%;
+                font-size: 1.15em;
+                font-weight: 600;
+                text-align: start;
+            }
+
+        .formLeft {
+            float: left;
+            width: 50%;
+            height: 100%;
+        }
+
+            .formLeft .inputTextField {
+                margin-left: 5%;
+                width: 80%;
+                height: 8%;
+                padding: 2%;
+                border: none;
+                font-size: large;
+                font-weight: 550;
+                background-color: rgb(245, 243, 243);
+                border-radius: 10px;
+                box-shadow: 3px 5px 4px rgb(216, 179, 179);
+                transition: 0.15s;
+            }
+
+                .formLeft .inputTextField:hover {
+                    transform: scale(1.05);
+                    background-color: rgb(170, 178, 185);
+                }
+
+            .formLeft .inputTextArea {
+                margin-left: 5%;
+                width: 80%;
+                height: 20%;
+                padding: 2%;
+                font-size: 1.5em;
+                font-weight: 550;
+                background-color:  rgb(245, 243, 243);
+                border-radius: 20px;
+                border-bottom-right-radius: 5px;
+                box-shadow: 3px 5px 4px rgb(216, 179, 179);
+                transition: 0.15s;
+            }
+
+                .formLeft .inputTextArea:hover {
+                    transform: scale(1.05);
+                    background-color: rgb(202, 208, 214);
+                }
+
+
+        .formRight {
+            float: right;
+            width: 50%;
+            height: 100%;
+        }
+
+            .formRight .imgFilePanel {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .formRight img {
+                width: 50%;
+                max-width: 200px;
+                height: auto;
+            }
+
+            .formRight input[type="file"] {
+                display: none;
+            }
+
+            .formRight label {
+                background-color: #eee;
+                padding: 10px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .formRight label::after {
+                    content: "Choose File";
+                    margin-left: 5px;
+                }
+
+            .formRight .submitButton {
+                 margin-top:30px;
+                color: white;
+                font-size: 1.7em;
+                font-weight: 550;
+                width: 40%;
+                height: 10%;
+                border: none;
+                border-radius: 7px;
+                border-top-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+                background-color: #524d4d;
+                box-shadow: 2px 2px 5px rgb(175, 151, 151);
+                transition: 0.15s;
+            }
+
+                .formRight .submitButton:hover {
+                    transform: scale(1.1);
+                    box-shadow: 4px 10px 10px rgb(175, 151, 151);
+                    background-color: #292727;
+                }
+
+            .formRight .resetButton {
+                 margin-top:30px;
+                font-size: 1.7em;
+                  color: white;
+                font-weight: 550;
+                width: 25%;
+                height: 10%;
+                margin-right: 20px;
+                margin-left: 10%;
+                border: none;
+                border-radius: 7px;
+                border-top-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+                background-color: #978080;
+                box-shadow: 2px 2px 5px rgb(175, 151, 151);
+                transition: 0.15s;
+            }
+
+        .resetButton:hover {
+            transform: scale(1.1);
+            box-shadow: 4px 10px 10px rgb(175, 151, 151);
+            background-color: #544343;
+        }
+    </style>
+</head>
+
+<body>
+    <form class="addProdForm" action=@Url.Action("AddNewProduct", "Admin") method="post" enctype="multipart/form-data">
+        @if (ViewBag.msg != null)
+        {
+            <div style="display: flex; justify-content: center;"><h1>@ViewBag.msg</h1></div>
+        }
+        <div class="formLeft">
+            <p>Product Name</p>
+            <input class="inputTextField"
+                   type="text"
+                   name="ProName"
+                   id="prodName"
+                   max="20"
+                   required />
+            <p>Unit Price</p>
+            <input class="inputTextField"
+                   type="number"
+                   step="0.01"
+                   name="UPrice"
+                   id="uprice"
+                   required />
+            <p>Catagory</p>
+            <select class="inputTextField" name="CatagID" id="catag" required>
+                <option value=1>Cloths</option>
+                <option value=2>Electronics</option>
+                <option value=3>Beauty Supplies</option>
+                <option value=4>Sport and Fitness</option>
+                <option value=5>Books</option>
+                <option value=6>Computer and Accessories</option>
+                <option value=7>Furniture</option>
+                <option value=8>Stationary Supplies</option>
+                <option value=9>Other</option>
+            </select>
+            <p>Initial Stock</p>
+            <input class="inputTextField"
+                   type="number"
+                   step="1"
+                   name="Qty"
+                   id="stock"
+                   max="10000"
+                   required />
+            <p>Description</p>
+            <textarea name="ProDesc"
+                      id="textArea"
+                      class="inputTextArea"
+                      cols="35"
+                      rows="5"
+                      placeholder="Product Description Here!"
+                      required></textarea>
+        </div>
+        <div class="formRight">
+            <p>Upload Product Images</p>
+            <div id="imgFilePanel1">
+                <img src="~/Extra/imagePlaceholder.png" alt="" />
+                <input type="file" name="productImg1" id="imgFile1"  required />
+                <label for="imgFile1"></label>
+            </div>
+            <div id="imgFilePanel2">
+                <img src="~/Extra/imagePlaceholder.png" alt="" />
+                <input type="file" name="productImg2" id="imgFile2"  required />
+                <label for="imgFile2"></label>
+            </div>
+            <div id="imgFilePanel3">
+                <img src="~/Extra/imagePlaceholder.png" alt="" />
+                <input type="file" name="productImg3" id="imgFile3" required />
+                <label for="imgFile3"></label>
+            </div>
+
+            <input onclick="clearImages()"
+                   class="resetButton"
+                   type="reset"
+                   value="Clear" />
+            <input class="submitButton"
+                   type="submit"
+                   value="Add Product" />
+        </div>
+
+        <script>
+            // Add event listener to each file input
+            var fileInputs = document.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(function(input) {
+              input.addEventListener('change', function() {
+                var file = this.files[0];
+                var img = this.parentNode.querySelector('img');
+
+                if (file && file.type.match('image.*')) {
+                  var reader = new FileReader();
+                  reader.onload = function(e) {
+                    img.src = e.target.result;
+                  };
+                  reader.readAsDataURL(file);
+                }
+              });
+            });
+        </script>
+
+    </form>
+</body>

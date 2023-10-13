@@ -1,0 +1,203 @@
+﻿<head>
+  <title>Admin Main Panel</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .sideBar {
+      float: left;
+      width: 17%;
+      height: 100vh;
+      background-color: #38383b;
+      color: #fff;
+      box-shadow: 0px 15px 20px rgb(47, 44, 44);
+    }
+
+    .sideBarTop {
+      padding: 20px;
+      height: 30%;
+    }
+
+    .logo{
+      position: relative;
+      justify-content: center;
+      width: 90%;
+      height: 90%;
+      background-color: rgb(73, 59, 59);
+      border-radius: 20px;
+      box-shadow: 10px 10px 10px rgb(17, 16, 16);
+    }
+
+    .logo {
+      background-image: url(add.png);
+    background-repeat: no-repeat;
+    background-position: center bottom 70px;
+    transition: 0.15s;
+    }
+    .logo span {
+      position: absolute;
+      display: block;
+      bottom: 10px;
+      left: 27%;
+      font-size: 2em;
+      font-weight: bold;
+    }
+
+    .logo:hover {
+    animation: rotate 1s ease-in-out both;
+    background-color: rgb(49, 39, 39);
+      border-radius: 100px;
+      box-shadow: 20px 20px 50px rgb(0, 0, 0);;
+}
+
+@@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    10% {
+        transform: rotate(12deg);
+    }
+
+    20% {
+        transform: rotate(-12deg);
+    }
+
+    30% {
+        transform: rotate(10deg);
+    }
+
+    40% {
+        transform: rotate(-10deg);
+    }
+
+    50% {
+        transform: rotate(7deg);
+    }
+
+    60% {
+        transform: rotate(-7deg);
+    }
+
+    70% {
+        transform: rotate(3deg);
+    }
+
+    80% {
+        transform: rotate(-3deg);
+    }
+
+    90% {
+        transform: rotate(2deg);
+    }
+
+    92% {
+        transform: rotate(-2deg);
+    }
+
+    94% {
+        transform: rotate(1deg);
+    }
+
+    96% {
+        transform: rotate(-1deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+    .sideBarBottom {
+      height: 70%;
+      padding-top: 20px;
+    }
+
+    .sideMenuItem {
+      padding: 10px;
+      height: 10%;
+      font-size: 1.4em;
+      margin-bottom: 20px;
+      color: #fff;
+      display: block;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      background-color: #313137;
+    }
+    .sideMenuItem img {
+      margin-left: 10px;
+      width: 35px;
+      height: 35px;
+    }
+    .sideMenuItem span {
+      display: inline-block;
+      padding-left: 20px;
+    }
+
+    #logOut {
+      margin-top: 50%;
+      position: relative;
+      bottom: 0;
+    }
+    .sideMenuItem:hover {
+      background-color: #000000;
+    }
+
+    .mainPanel {
+      float: right;
+      position: relative;
+      width: 80%;
+      height: 100vh;
+    }
+      #bgVideo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+  </style>
+</head>
+<body>
+  <section class="sideBar">
+    <div class="sideBarTop">
+      <div class="logo">
+        <span>Mercury</span>
+      </div>
+    </div>
+    <div class="sideBarBottom">
+      <a href="/Admin/SearchProducts" class="sideMenuItem" id="SearchProducts">
+        <img src="~/Extra/search.png" />
+        <span>Search Products</span>
+      </a>
+      <a href="/Admin/AddNewProduct" class="sideMenuItem" id="add">
+        <img src="~/Extra/add.png" />
+        <span>Product Add</span>
+      </a>
+      <a href="/Admin/ViewOrders" class="sideMenuItem" id="Orders">
+        <img src="~/Extra/tran.png" />
+        <span>Orders</span>
+      </a>
+      <a href="/Admin/AdminLogOut" class="sideMenuItem" id="logOut">
+        <img src="~/Extra/logout.png" />
+        <span>Log Out</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="mainPanel">@RenderBody();</section>
+</body>
+
+
+
+
+  
+@*<video id="bgVideo" autoplay loop muted class="bgVideoTag">
+  <source src="~/Extra/mainPanelBg1.mp4" type="video/mp4"/>
+</video>
+*@

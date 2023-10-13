@@ -1,0 +1,324 @@
+﻿@using MercuryShopping.Models.Tables
+@using Newtonsoft.Json;
+@{
+    Layout = "~/Views/Shared/CustomerNavBar.cshtml";
+}
+@{
+    @model List<Product>;
+
+
+
+    Customer customer = null;
+    string customerJson = Context.Session.GetString("customer");
+    if (string.IsNullOrEmpty(customerJson) == false)
+        customer = JsonConvert.DeserializeObject<Customer>(customerJson);
+}
+
+<head>
+    <title>My Cart</title>
+
+    <style>
+        @@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500;1,600;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+
+        /* Common styles for both sections */
+        main {
+            width: 70%;
+            margin-left: 15%;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
+            padding: 10px;
+            height: 90%;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            margin-left: 40%;
+            font-family: "Poppins", Arial, Helvetica, sans-serif;
+            color: #3c3c3c;
+        }
+
+        .product-table {
+            width: 100%;
+            height: 40%;
+            overflow-y: scroll;
+        }
+
+            .product-table::-webkit-scrollbar {
+                display: none;
+            }
+
+            /* Product table section styles */
+            .product-table table {
+                width: 100%;
+                font-family: "Poppins", Helvetica, sans-serif;
+                font-weight: 400;
+                font-size: 20px;
+                border-collapse: collapse;
+            }
+
+
+
+            .product-table th {
+                background-color: rgb(246, 243, 243);
+            }
+
+            .product-table th,
+            .product-table td {
+                padding: 10px;
+                text-align: left;
+                border-bottom: none;
+            }
+
+
+            .product-table tbody tr {
+                text-align: left;
+                border-bottom: none;
+                margin-top: 10px;
+                border-radius: 10px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+
+
+        .cancel-btn {
+            padding: 15px 30px;
+            background-color: #f00e5d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 17px;
+            cursor: pointer;
+            font-family: "poppins";
+            font-weight: 700px;
+        }
+
+
+
+        /* Receipt section styles */
+        .bill {
+            width: 100%;
+            /*  border-radius: 4px; */
+            color: rgb(0, 0, 0);
+            font-family: "Poppins";
+            border-left: 7.5px solid rgb(218, 23, 121);
+        }
+
+
+
+            .bill h2 {
+                font-family: "Poppins " Arial, Helvetica, sans-serif;
+                font-size: 30px;
+                color: #000000;
+                margin: 0;
+                margin-left: 10px;
+            }
+
+        .receipt span {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .price {
+            color: #65963a;
+            font-weight: 700;
+            font-size: 50px;
+        }
+
+
+
+        .checkout-btn {
+            background-color: #2049de;
+            color: #fff;
+            border: none;
+            margin-left: 30%;
+            width: 250px;
+            height: 70px;
+            border-radius: 5px;
+            font-size: 25px;
+            cursor: pointer;
+            margin-top: 50px;
+            text-align: center;
+            font-family: "Poppins", Arial, Helvetica, sans-serif;
+            transition: transform 0.2s;
+        }
+
+            .checkout-btn:hover {
+                transform: scale(1.1);
+                 background-color: #18319e;
+            }
+        /* Quantity buttons */
+        .quantity-btn {
+            padding: 5px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+            .quantity-btn:hover {
+                background-color: #f5f5f5;
+            }
+
+        .quantity {
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        .AddressDiv {
+            width: 40%;
+            display: inline-block;
+            float: right;
+            margin-right: 10%;
+        }
+
+            .AddressDiv h1 {
+                padding-left: 15px;
+            }
+
+            .AddressDiv textarea {
+                padding: 15px;
+                font-size: 25px;
+                border-radius: 25px; /* Adjust the value as per your preference */
+                border-bottom-right-radius: 0px;
+                border: none;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            }
+
+
+        .receipt {
+            flex-direction: column;
+            width: 40%;
+            float: left;
+        }
+
+
+            .receipt span {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .receipt label[for="selected-location"] {
+                font-size: 20px;
+                display: block;
+                text-align: left;
+                margin-bottom: 5px;
+            }
+
+
+        .incDecBtn {
+            font-size: 1.4em;
+            display: inline-block;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .Sign-in-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: gray;
+            color: white;
+            text-decoration: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-left: 10%;
+            width: 200px;
+            font-size: 25px;
+            text-align: center;
+        }
+
+            .Sign-in-btn:hover {
+                background-color: #ccc;
+            }
+
+    </style>
+</head>
+
+<body>
+    <main>
+        <h2>My Cart Items!</h2>
+        <section class="product-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Cancel</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{
+                        if (Model != null)
+                            foreach (Product cartItem in Model)
+                            {
+                                <tr>
+                                    <td>@cartItem.ProName</td>
+                                    <td>@cartItem.UPrice.ToString("0,0.00")  Birr</td>
+                                    <td>
+                                        <a href=@Url.Action("SubProductQtyByOne","Customers",new {ProID=cartItem.ProID}) class="incDecBtn">-</a>
+                                        <span class="quantity">@cartItem.Qty</span>
+                                        <a href=@Url.Action("AddProductQtyByOne","Customers",new {ProID=cartItem.ProID}) class="incDecBtn">+</a>
+                                    </td>
+                                    <td><a href=@Url.Action("RemoveFromCart", "Customers",new {ProID=cartItem.ProID,RedirectToo="Mycart"}) class="cancel-btn">Remove</a></td>
+                                    <td>@((cartItem.UPrice*cartItem.Qty).ToString("0,0.00")) Birr</td>
+                                </tr>
+                            }
+                    }
+                </tbody>
+            </table>
+        </section>
+        <section class="bill">
+            <div class="receipt">
+                <h2>Receipt</h2>
+
+                @{
+                    double total = 0;
+                    foreach (Product cartItem in Model)
+                    {
+                        total = total + (cartItem.Qty * cartItem.UPrice);
+                    }
+
+                }
+                <span>
+                    <span>Subtotal:</span>
+                    <span class="price">@((total*0.85).ToString("0,0.00")) Birr</span>
+                </span>
+                <br>
+                <span>
+                    <span>Vat 15%:</span>
+                    <span class="price">@((total*0.15).ToString("0,0.00")) Birr</span>
+                </span>
+                <br>
+                <span>
+                    <span>Total:</span>
+                    <span class="price">@total.ToString("0,0.00") Birr</span>
+                </span>
+            </div>
+
+            @if (customer != null)
+            {
+                <form action=@Url.Action("CheckOut", "Customers")>
+                    <div class="AddressDiv">
+                        <h1>Enter Shipping Address:</h1>
+                        <textarea name="location" required id="selected-locationInput"
+                              rows=3 cols=30
+                              placeholder="Enter Shipping Address Here!"></textarea>
+                    </div>
+                    <input class="checkout-btn" type="submit" value="Checkout!" />
+                </form>
+            }
+            else
+            {
+                <a class="Sign-in-btn" href=@Url.Action("SignInSignUp", "Customers")>Sign In!</a>
+            }
+        </section>
+    </main>
+</body>

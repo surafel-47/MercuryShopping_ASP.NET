@@ -1,0 +1,630 @@
+﻿@{
+    Layout = "~/Views/Shared/CustomerNavBar.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        @@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500;1,600;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+        }
+
+
+        /* nav bar properties end */
+
+        input {
+            box-sizing: border-box;
+            width: 300px;
+            height: 43px;
+            left: 62px;
+            top: 559px;
+            background: #ffffff;
+            border: 0.5px solid rgb(179, 177, 177);
+            font-family: "Poppins",Arial, Helvetica, sans-serif;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .searchBtn {
+            display:inline-block;
+            float:right;
+            width: 200.16px;
+            height: 44px;
+            margin: 20px;
+            margin-top: 0px;
+            background: #f3044c;
+            color: #ffffff;
+            font-family: "poppins",sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            border: white solid 1px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .products {
+            width: 114.16px;
+            height: 43px;
+            left: 491.84px;
+            top: 559px;
+            background: #c60148;
+            color: #f2f2f2;
+            font-family: "poppins",sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            border: none;
+        }
+
+        .hero {
+            top: 10px;
+            width: 100%;
+            height: 700px;
+        }
+
+        /* Create two sections in the hero area */
+        .section {
+            float: left;
+            width: 50%;
+            height: 420px;
+        }
+
+        /* Style section 1 */
+        .section-1 {
+            background-color: #ffffff;
+            display: flexbox;
+            justify-content: space-around;
+        }
+
+        /* Style section 2 */
+        .section-2 {
+            background-color: #ffffff;
+        }
+
+        /* Style the footer section */
+        .footer {
+            clear: both;
+            text-align: center;
+            display: flex;
+            justify-content: space-evenly;
+            background-color: #ffffff;
+            color: #fff;
+            padding: 120px;
+        }
+
+        /* Style the picture cards */
+        .picture-card {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            background-color: #ccc;
+            margin: 3px;
+            margin-right: 2px;
+        }
+
+        h1 {
+            margin-left: 350px;
+            position: absolute;
+            padding-top: 60px;
+            width: 641px;
+            height: 137px;
+            left: 62px;
+            top: 266px;
+            font-family: "Playfair Display",sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 33px;
+            line-height: 44px;
+            color: #000000;
+        }
+
+        h3 {
+            margin-left: 350px;
+            padding-top: 70px;
+            position: absolute;
+            width: 641px;
+            height: 62px;
+            left: 62px;
+            top: 433px;
+            font-family: "Poppins",sans-serif;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 21px;
+            line-height: 30px;
+            color: #000000;
+        }
+
+        .searchbox {
+            margin-bottom: 60px;
+            margin-left: 350px;
+            position: absolute;
+            width: 544px;
+            height: 43px;
+            left: 62px;
+            top: 650px;
+        }
+
+        .img1 {
+            background-image: url("/Extra/shoeimg.png");
+            position: absolute;
+            width: 220px;
+            height: 211px;
+            left: 746px;
+            top: 212px;
+            margin-left: 1200px;
+            border-radius: 7px;
+            background-size: cover;
+        }
+
+            .img1:hover {
+                zoom: 50px;
+                transform: 0.4s;
+            }
+
+        .img2 {
+            position: absolute;
+            width: 430px;
+            height: 211px;
+            left: 983px;
+            top: 212px;
+            margin-left: 1200px;
+            background-image: url("/Extra/phone.png");
+            border-radius: 4px;
+            background-size: cover;
+        }
+
+        .img3 {
+            position: absolute;
+            width: 414px;
+            height: 400px;
+            left: 746px;
+            top: 443px;
+            margin-left: 1200px;
+            background-image: url("/Extra/women shoping.png");
+            border-radius: 7px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .img4 {
+            position: absolute;
+            width: 220px;
+            height: 400px;
+            left: 1189px;
+            top: 443px;
+            background-image: url("/Extra/joystick.png");
+            border-radius: 4px;
+            margin-left: 1200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+
+        /* Styles for the About Us section */
+        .about-section {
+            background-color: #374957;
+            padding: 50px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .about-section h2 {
+            font-size: 30px;
+            margin-bottom: 20px;
+            color: #f9f9f9;
+        }
+
+        .about-section p {
+            font-size: 18px;
+            color: #ffffff;
+        }
+
+        /* Styles for the Cards section */
+        .cards-section {
+            padding: 150px 0;
+            text-align: center;
+            height: auto;
+        }
+
+        .card {
+            display: inline-block;
+            width: 300px;
+            background-color: #f1f6f9;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+            .card img {
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+            }
+
+            .card h3 {
+                font-size: 24px;
+                margin-top: 15px;
+            }
+
+            .card p {
+                font-size: 16px;
+                color: #666;
+                margin-top: 10px;
+            }
+
+            .card .btn {
+                display: inline-block;
+                background-color: #333;
+                color: #fff;
+                padding: 8px 15px;
+                border-radius: 3px;
+                text-decoration: none;
+                margin-top: 15px;
+            }
+
+            .card img {
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+            }
+
+            .card h3 {
+                font-size: 24px;
+                margin-top: 15px;
+            }
+
+            .card p {
+                font-size: 16px;
+                color: #666;
+                margin-top: 10px;
+            }
+
+            .card .btn {
+                display: inline-block;
+                background-color: #f40454;
+                color: white;
+                padding: 8px 15px;
+                border-radius: 3px;
+                text-decoration: none;
+                margin-top: 15px;
+                font-family: "poppins",sans-serif;
+            }
+
+
+        /* Styles for the Categories section */
+        .categories-section {
+            padding: 50px 0;
+            text-align: center;
+            margin-bottom: 150px 0;
+        }
+
+        .main {
+            background-color: #EF6461;
+            ;
+            padding: 50px 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            display: inline-block;
+            width: 200px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+            .card img {
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+            }
+
+            .card h3 {
+                font-size: 18px;
+                margin-top: 15px;
+            }
+
+            .card p {
+                font-size: 14px;
+                color: #666;
+                margin-top: 10px;
+            }
+
+            .card .btn {
+                display: inline-block;
+                background-color: #b60e5c color: #fff;
+                padding: 8px 15px;
+                border-radius: 3px;
+                text-decoration: none;
+                margin-top: 15px;
+            }
+
+        /* Styles for the Teams section */
+        /* Styles for the Teams section */
+        .teams-section {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .teamcontainer {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .teamcard {
+            width: 250px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0 4px 5px rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            text-align: center;
+        }
+
+            .teamcard .picture-box {
+                width: 150px;
+                height: 150px;
+                margin: 0 auto;
+                overflow: hidden;
+                border-radius: 50%;
+            }
+
+                .teamcard .picture-box img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                }
+
+            .teamcard h4 {
+                font-size: 20px;
+                margin-top: 20px;
+            }
+
+            .teamcard p {
+                margin-top: 5px;
+            }
+
+            .teamcard .social-links {
+                margin-top: 20px;
+            }
+
+            .teamcard .social-link {
+                display: inline-block;
+                margin: 5px;
+                padding: 5px 10px;
+                background-color: #333;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 3px;
+            }
+
+        .teammain {
+            background-color: #b60e5c;
+            width: 100%;
+            padding: 50px 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+    </style>
+    <title>Welcome | Mercury</title>
+</head>
+
+<body>
+    <div class="hero">
+        <div class="section section-1">
+            <h1>
+                Discover endless possibilities at <span style="color: #f20359;"> Mercury </span> , <br>
+                your ultimate destination for online shopping.
+            </h1> <br>
+            <h3>
+                Unlock a world of convenience and style at <span style="color: #f20359;"> Mercury </span>. Explore <br>
+                our curated collection and elevate your shopping experience today.
+            </h3>
+            <form class="searchbox" method="GET" action=@Url.Action("SearchProducts", "Customers")>
+                <input type="text" placeholder="Search for Products" name="searchQuery">
+                <input class="searchBtn" value="Search" type="submit"> 
+                <br>
+            </form>
+        </div>
+        <div class="section section-2">
+            <div class="img1"></div>
+            <div class="img2"></div>
+            <div class="img3"></div>
+            <div class="img4"></div>
+            <div class="img5"></div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="picture-card" style="background-image: url('/Extra/Nike.png');"></div>
+        <div class="picture-card" style="background-image: url('/Extra/Macy.png');"></div>
+        <div class="picture-card" style="background-image: url('/Extra/samsung.png');"></div>
+        <div class="picture-card" style="background-image: url('/Extra/under.png');"></div>
+        <div class="picture-card" style="background-image: url('/Extra/addidas.png');"></div>
+        <div class="picture-card" style="background-image: url('/Extra/levies.png');"></div>
+    </div>
+    <!-- about us  -->
+    <section class="about-section">
+        <div class="container">
+            <h2>About Us</h2>
+            <p>
+                "At Mercury, we are proud to be Ethiopia's premier online marketplace, connecting you with a diverse range of
+                products that cater to your every need. <br>
+                With our user-friendly platform, you can effortlessly discover an extensive collection of high-quality items,
+                from fashion and electronics to home essentials and beyond. <br>
+                We are committed to providing a seamless shopping experience, ensuring your satisfaction with secure
+                transactions, reliable delivery, and exceptional customer service. Join us in embracing the convenience of
+                online shopping and unlock a world of possibilities at Mercury.".
+            </p>
+        </div>
+    </section>
+    <section class="cards-section">
+        <div class="container">
+            <div class="card" id="card1">
+                <img src="/Extra/3333449.jpg" alt="Image 1">
+                <h4>Free Deleivery </h4>
+                <p>
+                    <span style="color: #f20359;"> Mercury </span>, we believe in providing an exceptional shopping experience
+                    for our customers. That's why we offer free delivery on all orders.
+                    <br>
+                </p>
+                <a href="#" class="btn">Learn More</a>
+            </div>
+
+            <div class="card" id="card2">
+                <img src="/Extra/Posts.jpg" alt="Image 3">
+                <h4>Connect with People </h4>
+                <p>
+                    <span style="color: #f20359;"> Mercury </span> is dedicated to connecting people from all walks of life. We
+                    bring together a diverse community of shoppers..
+                </p>
+                <a href="#" class="btn">Learn More</a>
+            </div>
+
+            <div class="card" id="card3">
+                <img src="/Extra/4530199.jpg" alt="Image 3">
+                <h4>Wide Varity of Shopes </h4>
+                <p>
+                    <span style="color: #f20359;"> Mercury </span> takes pride in offering a wide variety of shoppers, catering
+                    to diverse tastes and preferences. <br>
+                    With an extensive range of products, we bring together a curated selection from various brands,
+                </p>
+                <a href="#" class="btn">Learn More</a>
+            </div>
+    </section>
+    <section class="categories-section">
+        <div class="main">
+
+            <h2>Catagories</h2>
+            <p>
+                "At Mercury, we take pride in offering an extensive range of categories to cater to the diverse needs and preferences of our valued customers. <br>
+                Whether you're seeking fashion-forward clothing, cutting-edge electronics, stylish home décor, or essential everyday items, our vast selection ensures that you can find exactly what you're looking for. <br>
+
+            </p>
+        </div>
+        <div class="card">
+            <img src="/Extra/phone.png" alt="Category 1">
+            <h4>Electronics</h4>
+            <p>Shop Digital Devices Here!.</p>
+            <a href=@Url.Action("SearchProducts", "Customers",new{selectedCatagID=2}) class="btn">Explore</a>
+        </div>
+        <div class="card">
+            <img src="/Extra/cloth.png" alt="Category 1">
+            <h4>Cloths</h4>
+            <p>Find Cloth that Suits you!</p>
+            <a href=@Url.Action("SearchProducts", "Customers",new{selectedCatagID=1}) class="btn">Explore</a>
+        </div>
+        <div class="card">
+            <img src="/Extra/beauty.png" alt="Category 2">
+            <h4>Beauty Supplies </h4>
+            <p>All natural Bueaty Products.</p>
+            <a href=@Url.Action("SearchProducts", "Customers",new{selectedCatagID=3}) class="btn">Explore</a>
+        </div>
+
+        <div class="card">
+            <img src="/Extra/sport.png" alt="Category 3">
+            <h4>Sport and Fitness</h4>
+            <p>Get fit by exploring our products!</p>
+            <a href=@Url.Action("SearchProducts", "Customers",new{selectedCatagID=4}) class="btn">Explore</a>
+        </div>
+
+        <div class="card">
+            <img src="/Extra/books.png" alt="Category 4">
+            <h4>Books</h4>
+            <p>Let's read and Grow together</p>
+            <a href=@Url.Action("SearchProducts", "Customers",new{selectedCatagID=5}) class="btn">Explore</a>
+        </div>
+
+        <div class="card">
+            <img src="/Extra/Comp.png" alt="Category 5">
+            <h4>Computer and Accessories</h4>
+            <p>AI will take over the world!</p>
+            <a href=@Url.Action("SearchProducts", "Customers",new{selectedCatagID=6}) class="btn">Explore</a>
+        </div>
+    </section>
+    <section class="teams-section">
+        <div class="teammain">
+
+            <h2>Our team </h2>
+            <p>
+                "At Mercury, we take pride in offering an extensive range of categories to cater to the diverse needs and preferences of our valued customers. <br>
+                Whether you're seeking fashion-forward clothing, cutting-edge electronics, stylish home décor, or essential everyday items, our vast selection ensures that you can find exactly what you're looking for. <br>
+
+            </p>
+        </div>
+        <div class="teamcontainer">
+
+            <div class="teamcard">
+                <div class="picture-box">
+                    <img src="/Extra/ava1.png" alt="Team Member 1">
+                </div>
+                <h4>Etsub Yidenkachew</h4>
+                <p>ID: YY6504</p>
+                <p>Batch: 2002</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" style="background-color:#0323f2 ;">GitHub</a>
+                </div>
+            </div>
+
+            <div class="teamcard">
+                <div class="picture-box">
+                    <img src="/Extra/ava2.png" alt="Team Member 2">
+                </div>
+                <h4>Surafel Zewdu</h4>
+                <p>ID: GC5332</p>
+                <p>Batch: DRB 2002 </p>
+                <div class="social-links">
+                    <a href="https://github.com/surak47"  target="_blank" class="social-link" style="background-color:#0323f2 ;">GitHub</a>
+
+                </div>
+            </div>
+
+            <div class="teamcard">
+                <div class="picture-box">
+                    <img src="/Extra/aca3.png" alt="Team Member 3">
+                </div>
+                <h4>Kidist Abyneh</h4>
+                <p>ID: EW</p>
+                <p>Batch: DRB2002</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" style="background-color:#0323f2 ;">GitHub</a>
+
+                </div>
+            </div>
+
+            <div class="teamcard">
+                <div class="picture-box">
+                    <img src="/Extra/ava4.png" alt="Team Member 4">
+                </div>
+                <h4>Hayilegabriel Nadew</h4>
+                <p>ID: GP1192</p>
+                <p>Batch :DRB1901</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" style="background-color:#0323f2 ;">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+

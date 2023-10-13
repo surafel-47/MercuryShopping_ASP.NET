@@ -1,0 +1,312 @@
+﻿@using MercuryShopping.Models.Tables
+@using Newtonsoft.Json
+@{
+    Layout = "~/Views/Shared/CustomerNavBar.cshtml";
+}
+@{
+    @model List<Product>;
+
+    List<Product> cartItems = new List<Product>();
+    string cartJson = Context.Session.GetString("cartItems");
+    if (string.IsNullOrEmpty(cartJson) == false)
+        cartItems = JsonConvert.DeserializeObject<List<Product>>(cartJson);
+
+}
+
+
+<head>
+    <title>Producs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        @@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500;1,600;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+
+
+
+        /***************************************************************************************************/
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1%;
+            width: 100%;
+        }
+
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            width: 30%;
+            height: 70px;
+        }
+
+        .dropdown select {
+            padding: 8px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            height: 50px;
+            background-color: ghostwhite;
+            border-radius: 4px;
+        }
+
+        .search-box {
+            flex-grow: 1;
+            margin: 0 10px;
+            height: 50px;
+            font-size: 15px;
+        }
+
+            .search-box input {
+                padding: 8px;
+                width: 100%;
+                height: 50px;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+        .search-btn {
+            margin-left: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            height: 50px;
+        }
+
+            .search-btn:hover {
+                background-color: #555;
+            }
+
+        .ProductsGrid {
+            box-shadow: -5px 0 5px rgba(0, 0, 0, 0.1), 5px 0 5px rgba(0, 0, 0, 0.1);
+            margin-left: 10%;
+            margin-right: 10%;
+            padding: 3%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+            overflow: hidden;
+        }
+
+
+
+        .product-card {
+            width: 340px;
+            height: 340px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgb(237, 232, 232);
+            box-shadow: 10px 10px 10px rgba(70, 49, 49, 0.1);
+        }
+
+        .slider-container {
+            width: 300px;
+            height: 200px;
+            overflow: hidden;
+        }
+
+
+        .image-slider {
+            display: flex;
+            animation: slide-animation 10s infinite;
+        }
+
+            .image-slider img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+        @@keyframes slide-animation {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-100%);
+            }
+
+            50% {
+                transform: translateX(-200%);
+            }
+
+            75% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+
+        .product-name {
+            margin-top: 10px;
+        }
+
+        .price {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .add-to-cart-link {
+            margin-left: auto;
+            margin-right: 20px;
+            width: 15%;
+            padding: 8px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .Remove-From-cart-link {
+            margin-left: auto;
+            margin-right: 20px;
+            width: 15%;
+            padding: 8px;
+            background-color: red;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .add-to-cart-link:hover {
+            background-color: #2980b9;
+        }
+
+        .Remove-From-cart-link :hover {
+            background-color: darkred;
+        }
+
+
+
+        .rating {
+            display: inline-block;
+            direction: rtl;
+        }
+
+            .rating input[type="radio"] {
+                display: none;
+            }
+
+            .rating label {
+                color: #ddd;
+                font-size: 24px;
+                cursor: pointer;
+                display: inline-block;
+                transform: rotateY(180deg);
+            }
+
+                .rating label:before {
+                    content: "\2605";
+                    display: inline-block;
+                    transform: rotateY(180deg);
+                }
+
+            .rating input[type="radio"]:checked ~ label {
+                color: #ffcc00;
+            }
+
+        .dot {
+            margin-left: 5px;
+            margin-right: 5px;
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="search-container">
+        <form class="search-form" method="GET" action=@Url.Action("SearchProducts", "Customers")>
+            <div class="dropdown">
+                <select name="SelectedCatagID">
+                    <option value="0" @(ViewBag.selectedCatagID == 0 ? "selected" : "")>All</option>
+                    <option value="1" @(ViewBag.selectedCatagID == 1 ? "selected" : "")>Electronics</option>
+                    <option value="2" @(ViewBag.selectedCatagID == 2 ? "selected" : "")>Cloths</option>
+                    <option value="3" @(ViewBag.selectedCatagID == 3 ? "selected" : "")>Furniture</option>
+                    <option value="4" @(ViewBag.selectedCatagID == 4 ? "selected" : "")>Beauty Supplies</option>
+                    <option value="5" @(ViewBag.selectedCatagID == 5 ? "selected" : "")>Office Supplies</option>
+                    <option value="6" @(ViewBag.selectedCatagID == 6 ? "selected" : "")>Sport and Fitness</option>
+                    <option value="7" @(ViewBag.selectedCatagID == 7 ? "selected" : "")>Books</option>
+                    <option value="8" @(ViewBag.selectedCatagID == 8 ? "selected" : "")>Computer and Accessories</option>
+                    <option value="9" @(ViewBag.selectedCatagID == 9 ? "selected" : "")>Others...</option>
+                </select>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Search Products..." name="searchQuery" value=@ViewBag.searchQuery>
+            </div>
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+
+    <div class="ProductsGrid">
+        @if (Model != null)
+        {
+            foreach (Product p in Model)
+            {
+
+                <div class="product-card">
+                    <div onclick="window.location.href='@Url.Action("ViewProductDetail", "Customers", new { ProID = p.ProID })'" class="slider-container">
+                        <div class="image-slider">
+                            <img src="~/@p.Img1" onerror="this.onerror=null; this.src='/Extra/noProImg.png'">
+                            <img src="~/@p.Img2" onerror="this.onerror=null; this.src='/Extra/noProImg.png'">
+                            <img src="~/@p.Img3" onerror="this.onerror=null; this.src='/Extra/noProImg.png'">
+                        </div>
+                    </div>
+                    @{
+                        int ratingValue = 1;
+                        if (p.AvgRating != null)
+                        {
+                            ratingValue = (int)Math.Round((decimal)p.AvgRating);
+                        }
+                    }
+                    <div class="rating">
+                        <input type="radio" id="star5" value=5 @(ratingValue==5 ? "checked" :"") disabled />
+                        <label for="star5"></label>
+                        <input type="radio" id="star4" value=4 @(ratingValue==4 ? "checked" :"") disabled />
+                        <label for="star4"></label>
+                        <input type="radio" id="star3" value=3 @(ratingValue==3 ? "checked" :"") disabled />
+                        <label for="star3"></label>
+                        <input type="radio" id="star2" value=2 @(ratingValue==2 ? "checked" :"") disabled />
+                        <label for="star2"></label>
+                        <input type="radio" id="star1" value=1 @(ratingValue==1 ? "checked" :"") disabled />
+                        <label for="star1"></label>
+                    </div>
+                    <div class="dot"></div>
+                    <span class="reviews">(@(p.NumOfReviews ?? 0)) Reviews</span>
+
+                    <h3 class="product-name">@p.ProName</h3>
+                    <div class="price">
+                        @p.UPrice.ToString("0,0.00") Birr
+
+                        @{
+                            if (cartItems.FirstOrDefault(c => c.ProID == p.ProID) == null) // if not in cart
+                            {
+                                <a class="add-to-cart-link" href=@Url.Action("AddToCart", "Customers",new{ProID=@p.ProID,RedirectToo="SearchProducts"})>Add</a>
+                            }
+                            else
+                            {
+                                <a class="remove-from-cart-link" href=@Url.Action("RemoveFromCart", "Customers",new{ProID=@p.ProID,RedirectToo="SearchProducts"})>Remove</a>
+                            }
+                        }
+
+                    </div>
+                </div>
+            }
+        }
+
+
+    </div>
+
+</body>

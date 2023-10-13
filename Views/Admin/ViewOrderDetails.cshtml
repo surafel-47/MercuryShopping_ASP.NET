@@ -1,0 +1,228 @@
+﻿@using MercuryShopping.Models.Tables;
+
+@{
+    Layout = "~/Views/Shared/AdminNavBar.cshtml";
+}
+
+@{
+
+    Orders order = ViewBag.order;
+    List<OrderDetails> orderDetails = ViewBag.orderDetails;
+    Customer customer = ViewBag.customer;
+}
+
+
+<head>
+    <title>Invoice</title>
+    @*<link rel="stylesheet" href="~/Admin/AdminCssAndAssetsFiles/ViewOrderDetails.css" />*@
+
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .invoice-container {
+            margin: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            height: 90%;
+            width: 60%;
+        }
+
+        .invoice-header {
+            display: flex;
+            height: 30%;
+        }
+
+            .invoice-header p {
+                font-weight: bold;
+            }
+
+            .invoice-header span {
+                font-weight: normal;
+            }
+
+        .customer-info {
+            flex: 1;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .invoice-details {
+            flex: 1;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            text-align: right;
+        }
+
+        .invoice_table_container {
+            overflow-y: scroll;
+            width: 100%;
+            height: 40%;
+        }
+
+            .invoice_table_container::-webkit-scrollbar {
+                display: none;
+            }
+
+        .invoice-table {
+            padding: 10px;
+            font-size: 23px;
+            font-size: 23px;
+            width: 100%;
+        }
+
+            .invoice-table tr {
+                height: 20px;
+            }
+
+
+            /* Styling table header */
+            .invoice-table th {
+                background-color: rgb(66, 56, 56);
+                color: #fff;
+                padding: 10px;
+                font-size: 25px;
+            }
+
+            /* Padding for table cells */
+            .invoice-table td {
+                padding: 10px;
+            }
+            /* Alternating background colors for table rows */
+            .invoice-table tbody tr:nth-child(even) {
+                background-color: rgb(237, 229, 229);
+            }
+
+            .invoice-table tbody tr:nth-child(odd) {
+                background-color: rgb(255, 240, 255);
+            }
+
+
+        .invoice-summary {
+            float: left;
+            width: 50%;
+        }
+
+        .invoice-buttons {
+            padding-top: 10%;
+            float: right;
+            width: 50%;
+        }
+
+        .invoice-summary-item {
+            margin-left: 20px;
+        }
+
+            .invoice-summary-item * {
+                display: inline-block;
+            }
+
+            .invoice-summary-item p {
+                font-size: 20px
+            }
+
+
+        .Return {
+            display: inline-block;
+            padding: 10px 10px;
+            background-color: #978080;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 34px;
+            margin-left: 10px;
+        }
+
+        .Confirm {
+            display: inline-block;
+            padding: 10px 10px;
+            background-color: #524d4d;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 34px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <div class="customer-info">
+                <h2>Customer Information</h2>
+                <p>Customer ID: <span id="customerID">@customer.CustID</span></p>
+                <p>
+                    Name: <span id="customerName">
+                        @customer.Fname
+                        @customer.Lname
+                    </span>
+                </p>
+                <p>Email: <span id="customerEmail">@customer.Email</span></p>
+                <p>Phone Number: <span id="customerPhone">@customer.PhoneNumber</span></p>
+            </div>
+            <div class="invoice-details">
+                <h2>Invoice Details</h2>
+                <p>Date: <span id="invoiceDate">@order.Date_.ToString("yyyy-MM-dd")</span></p>
+                <p>Time: <span id="invoiceDate">@order.Date_.ToString("HH:mm:ss")</span></p>
+                <p>Shipping Address: <span id="shippingAddress">@order.Address</span></p>
+            </div>
+        </div>
+
+        <div class="invoice_table_container">
+
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Product Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (orderDetails != null)
+                    {
+                        @foreach (OrderDetails orderDetail in orderDetails)
+                        {
+                            <tr>
+                                <td>@orderDetail.ProID</td>
+                                <td>@orderDetail.ProName</td>
+                                <td>@orderDetail.Qty</td>
+                                <td>@orderDetail.ProTotal</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="invoice_summary_and_buttons">
+            <div class="invoice-summary">
+                <div class="invoice-summary-item">
+                    <h3>SubTotal:</h3>
+                    <p>@((order.Total*0.85)?.ToString("0,0.00")) Birr</p>
+                </div>
+                <div class="invoice-summary-item">
+                    <h3>VAT:</h3>
+                    <p>@((order.Total*0.15)?.ToString("0,0.00")) Birr</p>
+                </div>
+                <div class="invoice-summary-item">
+                    <h2>Total:</h2>
+                    <p>@order.Total?.ToString("0,0.00") Birr</p>
+                </div>
+            </div>
+        </div>
+        <div class="invoice-buttons">
+            @if (@order.OrderStatus != 1)
+            {
+                <a class="Confirm" href=@Url.Action("ConfirmOrder", "Admin",new {OrderID=@order.OrderID})>Confirm</a>
+            }
+            <a class="Return" href="@Url.Action("ViewOrders", "Admin")" class="return">Return</a>
+        </div>
+    </div>
+</body>

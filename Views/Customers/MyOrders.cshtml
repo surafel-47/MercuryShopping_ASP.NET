@@ -1,0 +1,114 @@
+﻿@using MercuryShopping.Models.Tables
+@using Newtonsoft.Json;
+@{
+    Layout = "~/Views/Shared/CustomerNavBar.cshtml";
+}
+@{
+    @model List<Orders>;
+ 
+}
+
+<head>
+    <title>My Orders History</title>
+
+    <style>
+        .viewOrders {
+            margin: 20px;
+            margin-left:30%;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            height: 90%;
+            width: 40%;
+        }
+
+
+        #caption {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-top: 30px;
+        }
+
+
+        .Orders_table_contaniner {
+            overflow-y: scroll;
+            width: 100%;
+            height: 90%;
+        }
+
+            .Orders_table_contaniner::-webkit-scrollbar {
+                display: none;
+            }
+
+        .OrdersTable {
+            padding: 10px;
+            width: 100%;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+            .OrdersTable tbody tr {
+                transition: 0.15s;
+            }
+
+            .OrdersTable tr:hover {
+                transform: scale(1.01);
+            }
+
+
+            .OrdersTable::-webkit-scrollbar {
+                display: none;
+            }
+
+
+            /* Styling table header */
+            .OrdersTable th {
+                background-color: rgb(66, 56, 56);
+                color: #fff;
+                padding: 10px;
+                font-size: 25px;
+            }
+
+            /* Padding for table cells */
+            .OrdersTable td {
+                padding: 10px;
+            }
+            /* Alternating background colors for table rows */
+            .OrdersTable tbody tr:nth-child(even) {
+                background-color: rgb(237, 229, 229);
+            }
+
+            .OrdersTable tbody tr:nth-child(odd) {
+                background-color: rgb(255, 240, 255);
+            }
+    </style>
+</head>
+
+<body>
+    <div class="viewOrders">
+        <div class="Orders_table_contaniner">
+            <table class="OrdersTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Order Status</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (Orders order in Model)
+                        {
+                            <tr onclick='window.location.href = "MyOrderDetails?OrderID=@order.OrderID"'>
+                                <td>@order.Date_</td>
+                                <td>@(order.OrderStatus==1? "Confimed" :"Pending")</td>
+                                <td>@order.Total?.ToString("0,0.00") Birr</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>

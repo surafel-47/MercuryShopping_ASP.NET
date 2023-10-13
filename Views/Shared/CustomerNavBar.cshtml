@@ -1,0 +1,233 @@
+﻿@using MercuryShopping.Models.Tables
+@using Newtonsoft.Json
+@{
+    List<Product> cartItems = new List<Product>();
+    string cartJson = Context.Session.GetString("cartItems");
+    if (string.IsNullOrEmpty(cartJson) == false)
+        cartItems = JsonConvert.DeserializeObject<List<Product>>(cartJson);
+
+    Customer customer = null;
+    string customerJson = Context.Session.GetString("customer");
+    if (string.IsNullOrEmpty(customerJson) == false)
+        customer = JsonConvert.DeserializeObject<Customer>(customerJson);
+
+}
+
+
+<head>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        @@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500;1,600;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,500;0,600;1,100;1,200&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-right: 15px;
+            margin-left: 15px;
+            margin-top: 10px;
+            position: sticky;
+            top: -5;
+            z-index:1000;
+        }
+
+        .navbar-brand {
+            font-family: "Playfair Display", Helvetica, sans-serif;
+            font-weight: bolder;
+            font-size: 33px;
+            color: #f20359;
+        }
+
+        .navbar-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-link {
+            margin: 15px;
+            text-decoration: none;
+            color: #000;
+            padding-top: 15px;
+            font-size: 20px;
+            font-weight: 400;
+            font-family: "Poppins", Arial, Helvetica, sans-serif;
+        }
+
+            .navbar-link:hover {
+                color: #f20359;
+                font-weight: 700;
+                font-size: 21.3px;
+                transform: translate(0.2ms);
+                text-decoration: underline 1px dashed #851037;
+            }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-button {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            .cart-button img {
+                width: 30px;
+                height: 30px;
+            }
+
+        .item-count {
+            color: #333;
+            font-size: 1.5em;
+            border-radius: 50%;
+        }
+
+        .history-button {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            .history-button img {
+                margin-left: 20px;
+                width: 30px;
+                height: 30px;
+            }
+
+        .sigin-button {
+            margin-left: 40px;
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            .sigin-button img {
+                width: 30px;
+                height: 30px;
+            }
+
+        .sign-in {
+            color: #333;
+            font-size: 1.5em;
+            border-radius: 50%;
+        }
+
+        .dropdown {
+            margin-left: 20px;
+            position: relative;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .profile-pic {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .user-profile:hover {
+            color: #f00;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            display: none;
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+            .dropdown-menu a img {
+                vertical-align: middle;
+                width: 20px;
+                height: 20px;
+                margin-right: 5px;
+            }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">Mercury</div>
+        <div class="navbar-links">
+            <a href=@Url.Action("Home", "Customers") class="navbar-link">Home</a>
+            <a href=@Url.Action("SearchProducts", "Customers") class="navbar-link">Search Products</a>
+            <a href=@Url.Action("SearchProducts", "Customers") class="navbar-link">Categories</a>
+        </div>
+        <div class="profile-container">
+            <a href=@Url.Action("MyCart", "Customers") class="cart-button">
+                <img src="~/Extra/cart.png" />
+                <span class="item-count">(@cartItems.Count)</span>
+            </a>
+
+            @{
+                if (customer != null)
+                {
+                    <a href="@Url.Action("MyOrders", "Customers")" class="history-button">
+                        <img src="~/Extra/History.png" />
+                    </a>
+                    <div class="dropdown">
+                        <a class="user-profile" href="#">
+                            @customer.Email
+                            <img class="profile-pic" src="~/@customer.CustImg" onerror="this.onerror=null; this.src='/Extra/noProfile.png'" />
+                        </a>
+                        <div class="dropdown-menu" style="width:200px">
+                            <a href="@Url.Action("SignOut", "Customers")">
+                                <img src="~/Extra/signIn.png" />
+                                <span class="">Sign Out</span>
+                            </a>
+                            <a href="#">
+                                <img src="~/Extra/Account.png" />
+                                <span class="">My Account</span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <a href=@Url.Action("SignInSignUp", "Customers") class="sigin-button">
+                        <img src="~/Extra/signIn.png" />
+                        <span class="sign-in">Sign In</span>
+                    </a>
+                }
+            }
+
+        </div>
+    </nav>
+    @RenderBody();
+</body>
